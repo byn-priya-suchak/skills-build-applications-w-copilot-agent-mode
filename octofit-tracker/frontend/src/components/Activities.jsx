@@ -1,5 +1,9 @@
 import { useEffect, useState } from 'react';
-import { apiBaseUrl, asCollection } from './api';
+import { asCollection, codespaceName } from './api';
+
+const activitiesApiUrl = codespaceName
+  ? `https://${codespaceName}-8000.app.github.dev/api/activities`
+  : 'http://localhost:8000/api/activities';
 
 function Activities() {
   const [activities, setActivities] = useState([]);
@@ -10,7 +14,7 @@ function Activities() {
 
     const loadActivities = async () => {
       try {
-        const response = await fetch(`${apiBaseUrl}/activities/`, { signal: controller.signal });
+        const response = await fetch(activitiesApiUrl, { signal: controller.signal });
         if (!response.ok) {
           throw new Error(`Activities request failed (${response.status})`);
         }

@@ -1,5 +1,9 @@
 import { useEffect, useState } from 'react';
-import { apiBaseUrl, asCollection } from './api';
+import { asCollection, codespaceName } from './api';
+
+const workoutsApiUrl = codespaceName
+  ? `https://${codespaceName}-8000.app.github.dev/api/workouts`
+  : 'http://localhost:8000/api/workouts';
 
 function Workouts() {
   const [workouts, setWorkouts] = useState([]);
@@ -10,7 +14,7 @@ function Workouts() {
 
     const loadWorkouts = async () => {
       try {
-        const response = await fetch(`${apiBaseUrl}/workouts/`, { signal: controller.signal });
+        const response = await fetch(workoutsApiUrl, { signal: controller.signal });
         if (!response.ok) {
           throw new Error(`Workouts request failed (${response.status})`);
         }

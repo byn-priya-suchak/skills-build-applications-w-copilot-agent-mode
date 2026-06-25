@@ -1,5 +1,9 @@
 import { useEffect, useState } from 'react';
-import { apiBaseUrl, asCollection } from './api';
+import { asCollection, codespaceName } from './api';
+
+const leaderboardApiUrl = codespaceName
+  ? `https://${codespaceName}-8000.app.github.dev/api/leaderboard`
+  : 'http://localhost:8000/api/leaderboard';
 
 function Leaderboard() {
   const [rows, setRows] = useState([]);
@@ -10,7 +14,7 @@ function Leaderboard() {
 
     const loadLeaderboard = async () => {
       try {
-        const response = await fetch(`${apiBaseUrl}/leaderboard/`, { signal: controller.signal });
+        const response = await fetch(leaderboardApiUrl, { signal: controller.signal });
         if (!response.ok) {
           throw new Error(`Leaderboard request failed (${response.status})`);
         }
