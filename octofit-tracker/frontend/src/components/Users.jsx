@@ -1,5 +1,9 @@
 import { useEffect, useState } from 'react';
-import { apiBaseUrl, asCollection } from './api';
+import { asCollection, codespaceName } from './api';
+
+const usersApiUrl = codespaceName
+  ? `https://${codespaceName}-8000.app.github.dev/api/users`
+  : 'http://localhost:8000/api/users';
 
 function Users() {
   const [users, setUsers] = useState([]);
@@ -10,7 +14,7 @@ function Users() {
 
     const loadUsers = async () => {
       try {
-        const response = await fetch(`${apiBaseUrl}/users/`, { signal: controller.signal });
+        const response = await fetch(usersApiUrl, { signal: controller.signal });
         if (!response.ok) {
           throw new Error(`Users request failed (${response.status})`);
         }
